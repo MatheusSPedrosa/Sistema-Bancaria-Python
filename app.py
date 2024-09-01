@@ -5,10 +5,11 @@
 
 
 class ContaBancaria:
-    def __init__(self, numero_conta, titular):
+    def __init__(self, numero_conta, titular, limite_saque):
         self.numero_conta = numero_conta
         self.titular = titular
         self.saldo = 0
+        self.limite_saque = limite_saque
 
     def depositar(self, valor):
         if valor > 0:
@@ -20,13 +21,16 @@ class ContaBancaria:
             print("Valor inválido para depósito.\n")
 
     def sacar(self, valor):
-        if valor > 0 and valor <= self.saldo:
-            self.saldo -= valor
-            print(
-                f"Saque de R${valor:.2f} realizado com sucesso.\nSaldo atualizado: R${self.saldo:.2f}\n"
-            )
+        if self.limite_saque < 3:
+            if valor > 0 and valor <= self.saldo:
+                self.saldo -= valor
+                print(
+                    f"Saque de R${valor:.2f} realizado com sucesso.\nSaldo atualizado: R${self.saldo:.2f}\n"
+                )
+            else:
+                print("Saldo insuficiente.\n")
         else:
-            print("Saldo insuficiente ou valor inválido para saque.\n")
+            print("Limite de saques atingido.\n")
 
     def extrato(self):
         print(
@@ -35,7 +39,7 @@ class ContaBancaria:
 
 
 # Criação de conta bancária
-conta = ContaBancaria(12345, "Matheus Pedrosa Sperandio")
+conta = ContaBancaria(12345, "Matheus Pedrosa Sperandio", 2)
 
 # Teste de funcionalidade
 conta.depositar(1000)
